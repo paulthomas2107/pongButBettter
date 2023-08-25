@@ -1,4 +1,5 @@
 import pygame
+import random
 
 pygame.init()
 
@@ -7,7 +8,8 @@ WIDTH, HEIGHT = 1000, 600
 wn = pygame.display.set_mode((WIDTH, HEIGHT))
 pygame.display.set_caption("PongButBetter")
 run = True
-
+direction = [0, 1]
+angle = [0, 1, 2]
 # Colors
 BLUE = (0, 0, 255)
 RED = (255, 0, 0)
@@ -48,11 +50,43 @@ while run:
         ball_vel_y *= -1
     if ball_x >= WIDTH - radius:
         ball_x, ball_y = WIDTH / 2 - radius, HEIGHT / 2 - radius
-        ball_vel_x *= -1
-        ball_vel_y *= -1
+        direct = random.choice(direction)
+        ang = random.choice(angle)
+        if direct == 0:
+            if ang == 0:
+                ball_vel_y, ball_x = -1.4, 0.7
+            if ang == 1:
+                ball_vel_y, ball_x = -0.7, 0.7
+            if ang == 2:
+                ball_vel_y, ball_x = -0.7, 1.4
+
+        if direct == 1:
+            if ang == 0:
+                ball_vel_y, ball_x = 1.4, 0.7
+            if ang == 1:
+                ball_vel_y, ball_x = 0.7, 0.7
+            if ang == 2:
+                ball_vel_y, ball_x = 0.7, 1.4
+
     if ball_x <= 0 + radius:
         ball_x, ball_y = WIDTH / 2 - radius, HEIGHT / 2 - radius
-        ball_vel_x, ball_vel_y = 0.7, 0.7
+        direct = random.choice(direction)
+        ang = random.choice(angle)
+        if direct == 0:
+            if ang == 0:
+                ball_vel_y, ball_x = -1.4, 0.7
+            if ang == 1:
+                ball_vel_y, ball_x = -0.7, 0.7
+            if ang == 2:
+                ball_vel_y, ball_x = -0.7, 1.4
+
+        if direct == 1:
+            if ang == 0:
+                ball_vel_y, ball_x = 1.4, 0.7
+            if ang == 1:
+                ball_vel_y, ball_x = 0.7, 0.7
+            if ang == 2:
+                ball_vel_y, ball_x = 0.7, 1.4
 
     # Paddle movement control
     if left_paddle_y >= HEIGHT - paddle_height:
@@ -70,6 +104,11 @@ while run:
     if left_paddle_x <= ball_x <= left_paddle_x + paddle_width:
         if left_paddle_y <= ball_y <= left_paddle_y + paddle_height:
             ball_x = left_paddle_x + paddle_width
+            ball_vel_x *= -1
+
+    if right_paddle_x <= ball_x <= right_paddle_x + paddle_width:
+        if right_paddle_y <= ball_y <= right_paddle_y + paddle_height:
+            ball_x = right_paddle_x
             ball_vel_x *= -1
 
     # Movement
